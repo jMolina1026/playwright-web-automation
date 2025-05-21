@@ -19,12 +19,13 @@ test.describe('Given the user visits the Sauce Demo site,', () => {
       await expect(element).toBeAttached();
       await expect(element).toBeVisible();
     }
+    // await expect.soft()
     await expect(loginPage.locators.loginLogo).toHaveText('Swag Labs')
     await expect(loginPage.locators.usernameField).toHaveAttribute('placeholder', 'Username');
     await expect(loginPage.locators.passwordField).toHaveAttribute('placeholder', 'Password');
     await expect(loginPage.locators.loginBtn).toHaveValue('Login');
-    await expect(loginPage.locators.loginCredential.getByRole('heading', { name: 'Accepted' })).toHaveText('Accepted usernames are:');
-    await expect(loginPage.locators.loginPassword.getByRole('heading', { name: 'Password' })).toHaveText('Password for all users:');
+    await expect(loginPage.locators.loginCredential).toHaveText('Accepted usernames are:');
+    await expect(loginPage.locators.loginPassword).toHaveText('Password for all users:');
     await wait(loginPage.page, 2000);
   });
 

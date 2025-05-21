@@ -13,13 +13,13 @@ export default class LoginPage {
   constructor(readonly page: Page) {
     // Approach for V1 test
     this.locators = {
-      usernameField: page.getByPlaceholder('Username'),
-      passwordField: page.getByPlaceholder('Password'),
-      loginBtn: page.locator('input#login-button'),
+      usernameField: page.getByRole('textbox', { name: 'Username' }),
+      passwordField: page.getByRole('textbox', { name: 'Password' }),
+      loginBtn: page.getByRole('button', { name: 'Login' }),
       errorMessageBox: page.locator('h3[data-test="error"]'),
-      loginLogo: page.locator('div.login_logo'),
-      loginCredential: page.locator('div#login_credentials'),
-      loginPassword: page.locator('div.login_password')
+      loginLogo: page.getByText('Swag Labs'),
+      loginCredential: page.getByRole('heading', { name: 'Accepted' }),
+      loginPassword: page.getByRole('heading', { name: 'Password' })
     }
 
     // Alternative approach for V2 test
