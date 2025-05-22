@@ -19,8 +19,9 @@ export const test = baseTest.extend<Fixtures>({
 
   loggedInPage: async ({ loginPage }, use) => {
     await loginPage.login(process.env.USERNME, process.env.PASSWORD, loginPage.loginBtn);
-    await wait(loginPage.page, 2000);
-    await use(loginPage['page']);
+    await wait(loginPage.page, 1000);
+    await expect.soft(loginPage.page.getByText('Swag Labs')).toBeVisible();
+    await use(loginPage.page);
   }
 });
 

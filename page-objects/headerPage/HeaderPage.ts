@@ -11,8 +11,8 @@ export default class HeaderPage {
       shoppingCartButton: page.locator('a.shopping_cart_link'),
       shoppingCartBadge: page.locator('span.shopping_cart_badge'),
       headerSecondTitle: page.locator('span.title'),
-      headerSecondaryFilter: page.getByRole('combobox')
+      headerSecondaryFilter: page.getByRole('combobox'),
+      headerSecFilterActive: page.locator('span.active_option')
     }
   }
-
 }

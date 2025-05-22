@@ -98,10 +98,10 @@ export default defineConfig({
     //    },
     // },
 
-    // {
-    //   name: 'firefox',
-    //   use: { ...devices['Desktop Firefox'], channel: 'firefox' },
-    // },
+    {
+      name: 'firefox',
+      use: { ...devices['Desktop Firefox'], channel: 'firefox' },
+    },
 
     // {
     //   name: 'webkit',

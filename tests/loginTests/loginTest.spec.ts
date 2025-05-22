@@ -16,16 +16,16 @@ test.describe('Given the user visits the Sauce Demo site,', () => {
     async ({ loginPage }) => {
     await loginPage.clickLoginPageBtn(loginPage.locators.loginBtn);
     for (const element of Object.values(loginPage.locators)) {
-      await expect(element).toBeAttached();
-      await expect(element).toBeVisible();
+      await expect.soft((element)).toBeAttached();
+      await expect.soft((element)).toBeVisible();
     }
     // await expect.soft()
-    await expect(loginPage.locators.loginLogo).toHaveText('Swag Labs')
-    await expect(loginPage.locators.usernameField).toHaveAttribute('placeholder', 'Username');
-    await expect(loginPage.locators.passwordField).toHaveAttribute('placeholder', 'Password');
-    await expect(loginPage.locators.loginBtn).toHaveValue('Login');
-    await expect(loginPage.locators.loginCredential).toHaveText('Accepted usernames are:');
-    await expect(loginPage.locators.loginPassword).toHaveText('Password for all users:');
+    await expect.soft((loginPage.locators.loginLogo)).toHaveText('Swag Labs')
+    await expect.soft((loginPage.locators.usernameField)).toHaveAttribute('placeholder', 'Username');
+    await expect.soft((loginPage.locators.passwordField)).toHaveAttribute('placeholder', 'Password');
+    await expect.soft((loginPage.locators.loginBtn)).toHaveValue('Login');
+    await expect.soft((loginPage.locators.loginCredential)).toHaveText('Accepted usernames are:');
+    await expect.soft((loginPage.locators.loginPassword)).toHaveText('Password for all users:');
     await wait(loginPage.page, 2000);
   });
 
