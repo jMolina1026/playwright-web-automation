@@ -1,6 +1,7 @@
 import { expect, type Locator, type Page } from '@playwright/test';
 
-export default class LoginPage {
+class LoginPage {
+  // Locators
   readonly locators: Record<string,Locator>;
   readonly usernameField: Locator;
   readonly passwordField: Locator;
@@ -9,6 +10,18 @@ export default class LoginPage {
   readonly loginLogo: Locator;
   readonly loginCredential: Locator;
   readonly loginPassword: Locator;
+
+  // Strings
+  readonly loginLogoText: string = 'Swag Labs';
+  readonly acceptedUserNamesText: string = 'Accepted usernames are:';
+  readonly passwordForAllText: string = 'Password for all users:';
+  readonly wrongUsername: string = 'WrongUserName';
+  readonly wrongPassword: string = 'WrongPassword';
+  readonly noMatchErrorMsg: string = 'Epic sadface: Username and password do not match any user in this service';
+  readonly usernameRequired: string = 'Epic sadface: Username is required';
+  readonly passwordRequired: string = 'Epic sadface: Password is required';
+
+
 
   constructor(readonly page: Page) {
     // Approach for V1 test
@@ -51,3 +64,5 @@ export default class LoginPage {
     await this.clickLoginPageBtn(element);
   }
 }
+
+export default LoginPage;

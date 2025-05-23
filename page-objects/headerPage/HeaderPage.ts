@@ -1,10 +1,16 @@
 import { expect, type Locator, type Page } from '@playwright/test';
 
-export default class HeaderPage {
+class HeaderPage {
+  // Locators
   readonly locators: Record<string,Locator>;
 
+  // Strings
+  readonly appLogoText: string = 'Swag Labs';
+  readonly secondTitleText: string = 'Products';
+  readonly activeFilterText: string = 'Name (A to Z)';
+
   constructor(readonly page: Page) {
-    // Approach for V1 test
+    // Locators
     this.locators = {
       headerLogo: page.getByText('Swag Labs'),
       burgerMenuButton: page.getByRole('button', { name: "Open menu" }),
@@ -16,3 +22,5 @@ export default class HeaderPage {
     }
   }
 }
+
+export default HeaderPage;

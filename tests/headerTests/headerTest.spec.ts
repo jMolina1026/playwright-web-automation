@@ -18,7 +18,7 @@ test.describe('Given the user visits the Sauce Demo site,', () => {
     tag: ['@header', '@headerSanity', '@Sanity'] }, 
     async ({ loggedInPage }) => {
       await test.step('Click on ATC Button', async () => {
-        await productPage.clickProductPageBtn(productPage.locators.addToCartBtn.first())
+        await productPage.clickProductPageBtn(productPage.locators.addToCartBtn.first());
       });
 
       await test.step('Assert existence and visibility of all necessary elements', async () => {
@@ -30,9 +30,9 @@ test.describe('Given the user visits the Sauce Demo site,', () => {
       });
 
       await test.step('Assert the required texts of each element', async () => {
-        await expect.soft(headerPage.locators.headerLogo).toHaveText('Swag Labs');
-        await expect.soft(headerPage.locators.headerSecondTitle).toHaveText('Products');
-        await expect.soft(headerPage.locators.headerSecFilterActive).toHaveText('Name (A to Z)');
+        await expect.soft(headerPage.locators.headerLogo).toHaveText(headerPage.appLogoText);
+        await expect.soft(headerPage.locators.headerSecondTitle).toHaveText(headerPage.secondTitleText);
+        await expect.soft(headerPage.locators.headerSecFilterActive).toHaveText(headerPage.activeFilterText);
       });
   });
 });
