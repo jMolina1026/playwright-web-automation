@@ -2,7 +2,7 @@ import { test as baseTest, expect, Page } from "@playwright/test";
 import LoginPage from "../../page-objects/loginPage/LoginPage.ts";
 import utility from '../../helpers/utilities';
 
-const { gotoSite, wait } = utility
+const { gotoSite, wait } = utility;
 
 type Fixtures = {
   loginPage: LoginPage;

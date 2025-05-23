@@ -2,7 +2,7 @@ import { test, expect } from '../../helpers/fixtures/loginFixture';
 import utility from '../../helpers/utilities';
 import HeaderPage from '../../page-objects/headerPage/HeaderPage';
 
-const { wait, waitForLoadState, isElementPresent } = utility
+const { wait } = utility;
 
 let headerPage: HeaderPage;
 
