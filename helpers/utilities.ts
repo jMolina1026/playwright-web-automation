@@ -33,10 +33,15 @@ async function isElementPresent(page: Page, element: Locator) {
   return isPresent
 }
 
+async function clickElementBtn(element: Locator) {
+  await element.click();
+}
+
 export default {
   gotoSite,
   wait,
   closeBrowser,
   waitForLoadState,
-  isElementPresent
+  isElementPresent,
+  clickElementBtn
 }

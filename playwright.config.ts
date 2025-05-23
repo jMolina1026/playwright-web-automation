@@ -29,7 +29,17 @@ export default defineConfig({
 
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: 'html',
-
+  // reporter: [['html', { open: 'always' }]], //always, never and on-failure (default).
+  // reporter: [['html', { outputFolder: 'my-report' }]], // report is written into the playwright-report folder in the current working directory. override it using the PLAYWRIGHT_HTML_REPORT
+  // reporter: 'dot',
+  // reporter: 'list',
+  /** 
+    reporter: [
+      ['list'],
+      ['json', { outputFile: 'test_result.json }]
+    ]
+   */
+  
   // Each test is given 30 seconds.
   timeout: 30000,
 
@@ -41,7 +51,7 @@ export default defineConfig({
     baseURL: 'https://www.saucedemo.com',
 
     // Run browser in headless mode.
-    headless: process.env.HEADLESS === 'true',
+    headless:  process.env.HEADLESS === 'true' || process.env.HEADLESS === undefined ? true : false,
 
     // Emulates `'prefers-colors-scheme'` media feature.
     colorScheme: 'dark',
@@ -90,17 +100,16 @@ export default defineConfig({
         viewport: null
       },
     },
+    {
+      name: 'firefox',
+      use: { ...devices['Desktop Firefox'], channel: 'firefox' },
+    },
     // {
     //   name: 'chromium',
     //   use: { 
     //     ...devices['Desktop Chrome'], // ...devices with name defaults to 1280x720
     //     viewport: { width: 1920, height: 720 },
     //    },
-    // },
-
-    // {
-    //   name: 'firefox',
-    //   use: { ...devices['Desktop Firefox'], channel: 'firefox' },
     // },
 
     // {

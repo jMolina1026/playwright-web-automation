@@ -3,7 +3,13 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "test:e2e": "npx playwright test --project 'Google Chrome Custom'",
+    "test:sanity": "npx playwright test --grep '@Sanity'  --project 'Google Chrome Custom'",
+    "test:regression": "npx playwright test --grep '@Regression'  --project 'Google Chrome Custom'",
+    "test:head:sanity": "HEADLESS=false npx playwright test --grep '@Sanity'  --project 'Google Chrome Custom'",
+    "test:head:regression": "HEADLESS=false npx playwright test --grep '@Regression'  --project 'Google Chrome Custom'"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
