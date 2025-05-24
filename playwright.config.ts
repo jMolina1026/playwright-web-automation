@@ -1,4 +1,5 @@
 import { defineConfig, devices } from '@playwright/test';
+import path from 'path';
 
 /**
  * Read environment variables from file.
@@ -7,6 +8,9 @@ import { defineConfig, devices } from '@playwright/test';
 // import dotenv from 'dotenv';
 // import path from 'path';
 // dotenv.config({ path: path.resolve(__dirname, '.env') });
+
+// Authentication Storage
+export const STORAGE_STATE = path.join(__dirname, 'playwright/.auth/user.json');
 
 /**
  * See https://playwright.dev/docs/test-configuration.
@@ -77,6 +81,28 @@ export default defineConfig({
    * https://playwright.dev/docs/emulation
    */
   projects: [
+    {
+      name: 'setup db',
+      testMatch: /.*\.setup\.ts/,
+    },
+    {
+      // HEADLESS=false npx playwright test sauce --project "Google Chrome Custom"
+      name: 'Google Chrome Custom2',
+      use: { 
+        channel: 'chrome',
+        userAgent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.7151.27 Safari/537.36",
+        launchOptions: {
+          args: process.env.HEADLESS === 'true' ?
+          ["--window-size=1920,1080"] :
+          ["--start-maximized"]
+        },
+        viewport: null,
+        storageState: STORAGE_STATE
+      },
+      dependencies: ['setup db']
+    },
+
+
     {
       // HEADLESS=true npx playwright test sauce --project "Google Chrome"                
       name: 'Google Chrome',
