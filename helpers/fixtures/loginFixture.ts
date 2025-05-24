@@ -14,7 +14,7 @@ export const test = baseTest.extend<Fixtures>({
   // Navigates to the login page
   loginPage: async ({ page }, use) => {
     const loginPage = new LoginPage(page);
-    await gotoSite(page, '');
+    await gotoSite(page, '/');
     await use(loginPage);
   },
 

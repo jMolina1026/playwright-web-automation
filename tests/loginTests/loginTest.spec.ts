@@ -6,6 +6,9 @@ const { wait } = utility;
 
 let headerPage: HeaderPage;
 
+// Reset storage state for this file to avoid being authenticated
+test.use({ storageState: { cookies: [], origins: [] } });
+
 test.describe('Given the user visits the Sauce Demo site,', () => {
   test.beforeEach(async({ page }) => {
     headerPage = new HeaderPage(page);
@@ -19,7 +22,6 @@ test.describe('Given the user visits the Sauce Demo site,', () => {
       await expect.soft((element)).toBeAttached();
       await expect.soft((element)).toBeVisible();
     }
-    // await expect.soft()
     await expect.soft((loginPage.locators.loginLogo)).toHaveText(loginPage.loginLogoText);
     await expect.soft((loginPage.locators.usernameField)).toHaveAttribute('placeholder', 'Username');
     await expect.soft((loginPage.locators.passwordField)).toHaveAttribute('placeholder', 'Password');

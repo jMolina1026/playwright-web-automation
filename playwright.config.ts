@@ -20,7 +20,7 @@ export default defineConfig({
   testDir: './tests',
 
   /* Run tests in files in parallel */
-  fullyParallel: false,
+  fullyParallel: true,
 
   /* Fail the build on CI if you accidentally left test.only in the source code. */
   forbidOnly: !!process.env.CI,
@@ -82,12 +82,11 @@ export default defineConfig({
    */
   projects: [
     {
-      name: 'setup db',
+      name: 'setup',
       testMatch: /.*\.setup\.ts/,
     },
     {
-      // HEADLESS=false npx playwright test sauce --project "Google Chrome Custom"
-      name: 'Google Chrome Custom2',
+      name: 'Google Chrome Custom',
       use: { 
         channel: 'chrome',
         userAgent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.7151.27 Safari/537.36",
@@ -99,31 +98,16 @@ export default defineConfig({
         viewport: null,
         storageState: STORAGE_STATE
       },
-      dependencies: ['setup db']
+      dependencies: ['setup']
     },
 
 
     {
-      // HEADLESS=true npx playwright test sauce --project "Google Chrome"                
       name: 'Google Chrome',
       use: { 
         ...devices['Desktop Chrome'],
         // browserName: 'chromium',
         channel: 'chrome',
-      },
-    },
-    {
-      // HEADLESS=false npx playwright test sauce --project "Google Chrome Custom"
-      name: 'Google Chrome Custom',
-      use: { 
-        channel: 'chrome',
-        userAgent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.7151.27 Safari/537.36",
-        launchOptions: {
-          args: process.env.HEADLESS === 'true' ?
-          ["--window-size=1920,1080"] :
-          ["--start-maximized"]
-        },
-        viewport: null
       },
     },
     {
