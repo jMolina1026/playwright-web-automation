@@ -9,15 +9,19 @@ import path from 'path';
 // import path from 'path';
 // dotenv.config({ path: path.resolve(__dirname, '.env') });
 
-// Authentication Storage
-export const STORAGE_STATE = path.join(__dirname, 'playwright/.auth/user.json');
+/**
+ * Authentication Storage
+ * https://playwright.dev/docs/test-global-setup-teardown#option-1-project-dependencies
+ * https://dev.to/playwright/a-better-global-setup-in-playwright-reusing-login-with-project-dependencies-14
+ */ 
+export const STORAGE_STATE = path.join(__dirname, '.auth/user.json');
 
 /**
  * See https://playwright.dev/docs/test-configuration.
  */
 export default defineConfig({
   // Look for test files in the "tests" directory, relative to this configuration file.
-  testDir: './tests',
+  // testDir: './ui/tests',
 
   /* Run tests in files in parallel */
   fullyParallel: true,

@@ -1,6 +1,6 @@
-import { test, expect } from '../../helpers/fixtures/loginFixture';
-import HeaderPage from '../../page-objects/headerPage/HeaderPage';
-import ProductsPage from '../../page-objects/productsPage/productsPage';
+import { test, expect } from '../fixtures/loginFixture';
+import HeaderPage from '../page-objects/HeaderPage';
+import ProductsPage from '../page-objects/ProductsPage';
 
 
 let headerPage: HeaderPage;

@@ -1,6 +1,6 @@
-import { test as baseTest, expect, Page } from "@playwright/test";
-import LoginPage from "../../page-objects/loginPage/LoginPage.ts";
-import utility from '../../helpers/utilities';
+import { test as baseTest, expect, Page, FullConfig } from "@playwright/test";
+import LoginPage from '../page-objects/LoginPage.ts';
+import utility from '../helpers/utilities.ts';
 
 const { gotoSite, wait } = utility;
 
@@ -35,4 +35,4 @@ export const test = baseTest.extend<Fixtures>({
 });
 
 
-export { expect } from '@playwright/test';
+export { expect, FullConfig } from '@playwright/test';

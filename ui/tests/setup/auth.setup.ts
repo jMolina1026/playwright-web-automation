@@ -1,13 +1,14 @@
-import { test as setup, expect } from '../helpers/fixtures/loginFixture'
-import { STORAGE_STATE } from '../playwright.config';
+import { test as setup, expect } from '../../../ui/fixtures/loginFixture'
+import { STORAGE_STATE } from '../../../playwright.config';
 
 setup('Check Logged In', async ({ loggedInPage }) => {
-  // Remember, the fixture loggedInPage is completing the steps below
+  /**
+   * Remember, the fixture loggedInPage is completing the steps below
+   *   let loginPage = new LoginPage(page);
+   *   await page.goto('/');
+   *   await loginPage.login(process.env.USERNME, process.env.PASSWORD, loginPage.loginBtn);
+   */ 
   
-  // let loginPage = new LoginPage(page);
-  // await page.goto('/');
-  // await loginPage.login(process.env.USERNME, process.env.PASSWORD, loginPage.loginBtn);
-
   // Wait for the final URL to ensure that the cookies are actually set.
   await loggedInPage.waitForURL('https://www.saucedemo.com/inventory.html');
   

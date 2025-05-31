@@ -1,5 +1,5 @@
 import { expect, type Locator, type Page } from '@playwright/test';
-import utility from '../../helpers/utilities';
+import utility from '../helpers/utilities';
 
 const { clickElementBtn } = utility
 

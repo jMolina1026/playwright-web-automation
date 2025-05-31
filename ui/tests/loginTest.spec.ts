@@ -1,6 +1,6 @@
-import { test, expect } from '../../helpers/fixtures/loginFixture';
-import utility from '../../helpers/utilities';
-import HeaderPage from '../../page-objects/headerPage/HeaderPage';
+import { test, expect } from '../fixtures/loginFixture';
+import utility from '../helpers/utilities';
+import HeaderPage from '../page-objects/HeaderPage';
 
 const { wait } = utility;
 
