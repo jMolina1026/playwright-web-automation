@@ -1,4 +1,5 @@
 import { defineConfig, devices } from '@playwright/test';
+import path from 'path';
 
 /**
  * Read environment variables from file.
@@ -9,14 +10,21 @@ import { defineConfig, devices } from '@playwright/test';
 // dotenv.config({ path: path.resolve(__dirname, '.env') });
 
 /**
+ * Authentication Storage
+ * https://playwright.dev/docs/test-global-setup-teardown#option-1-project-dependencies
+ * https://dev.to/playwright/a-better-global-setup-in-playwright-reusing-login-with-project-dependencies-14
+ */ 
+export const STORAGE_STATE = path.join(__dirname, '.auth/user.json');
+
+/**
  * See https://playwright.dev/docs/test-configuration.
  */
 export default defineConfig({
   // Look for test files in the "tests" directory, relative to this configuration file.
-  testDir: './tests',
+  // testDir: './ui/tests',
 
   /* Run tests in files in parallel */
-  fullyParallel: false,
+  fullyParallel: true,
 
   /* Fail the build on CI if you accidentally left test.only in the source code. */
   forbidOnly: !!process.env.CI,
@@ -78,16 +86,10 @@ export default defineConfig({
    */
   projects: [
     {
-      // HEADLESS=true npx playwright test sauce --project "Google Chrome"                
-      name: 'Google Chrome',
-      use: { 
-        ...devices['Desktop Chrome'],
-        // browserName: 'chromium',
-        channel: 'chrome',
-      },
+      name: 'setup',
+      testMatch: /.*\.setup\.ts/,
     },
     {
-      // HEADLESS=false npx playwright test sauce --project "Google Chrome Custom"
       name: 'Google Chrome Custom',
       use: { 
         channel: 'chrome',
@@ -97,7 +99,19 @@ export default defineConfig({
           ["--window-size=1920,1080"] :
           ["--start-maximized"]
         },
-        viewport: null
+        viewport: null,
+        storageState: STORAGE_STATE
+      },
+      dependencies: ['setup']
+    },
+
+
+    {
+      name: 'Google Chrome',
+      use: { 
+        ...devices['Desktop Chrome'],
+        // browserName: 'chromium',
+        channel: 'chrome',
       },
     },
     {

@@ -1,20 +1,20 @@
-import { test, expect } from '../../helpers/fixtures/loginFixture';
-import HeaderPage from '../../page-objects/headerPage/HeaderPage';
-import ProductsPage from '../../page-objects/productsPage/productsPage';
+import { test, expect } from '../fixtures/loginFixture';
+import HeaderPage from '../page-objects/HeaderPage';
+import ProductsPage from '../page-objects/ProductsPage';
 
 
 let headerPage: HeaderPage;
 let productPage: ProductsPage;
 
 test.describe('Given the user visits the Sauce Demo site,', () => {
-  test.beforeEach(async({ page }) => {
-    headerPage = new HeaderPage(page);
-    productPage = new ProductsPage(page);
+  test.beforeEach(async({ authLoggedIn }) => {
+    headerPage = new HeaderPage(authLoggedIn);
+    productPage = new ProductsPage(authLoggedIn);
   })
   
   test('TC-001 - Verify that all Header elements exist', { 
     tag: ['@header', '@headerSanity', '@Sanity'] }, 
-    async ({ loggedInPage }) => {
+    async () => {
       await test.step('Click on ATC Button', async () => {
         await productPage.clickProductPageBtn(productPage.locators.addToCartBtn.first());
       });

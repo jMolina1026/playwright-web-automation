@@ -5,6 +5,6 @@ node_modules/
 /playwright-report/
 /blob-report/
 /playwright/.cache/
-helpers/fixtures/demoLoginFixture.ts
-tests/tests-examples/
-page-objects/test_Page
+ui/fixtures/demoLoginFixture.ts
+ui/tests/tests-examples/
+.auth
