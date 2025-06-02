@@ -10,12 +10,19 @@ setup('Check Logged In', async ({ loggedInPage }) => {
    */ 
   
   // Wait for the final URL to ensure that the cookies are actually set.
-  await loggedInPage.waitForURL('https://www.saucedemo.com/inventory.html');
+  await setup.step('Wait for the final URL', async () => {
+    await loggedInPage.waitForURL('https://www.saucedemo.com/inventory.html');
+  })
   
   // Alternatively, you can wait until the page reaches a state where all cookies are set.
-  await expect(loggedInPage).toHaveURL('https://www.saucedemo.com/inventory.html');
-  await expect(loggedInPage).toHaveTitle('Swag Labs');
+  await setup.step('Wait until all cookies are set', async () => {
+    await expect(loggedInPage).toHaveURL('https://www.saucedemo.com/inventory.html');
+    await expect(loggedInPage).toHaveTitle('Swag Labs');
+  })
+
 
   // End of authentication steps.
-  await loggedInPage.context().storageState({ path: STORAGE_STATE });
+  await setup.step('Store the current state - Logged In', async  () => {
+    await loggedInPage.context().storageState({ path: STORAGE_STATE });
+  })
 });

@@ -10,11 +10,14 @@ import path from 'path';
 // dotenv.config({ path: path.resolve(__dirname, '.env') });
 
 /**
- * Authentication Storage
- * https://playwright.dev/docs/test-global-setup-teardown#option-1-project-dependencies
- * https://dev.to/playwright/a-better-global-setup-in-playwright-reusing-login-with-project-dependencies-14
+ * @description Authentication Storage, 
+ * Each state will be stored to reduce site navigation and load with a 
+ * predetermined state
+ * @url1 https://playwright.dev/docs/test-global-setup-teardown#option-1-project-dependencies
+ * @url2 https://dev.to/playwright/a-better-global-setup-in-playwright-reusing-login-with-project-dependencies-14
  */ 
 export const STORAGE_STATE = path.join(__dirname, '.auth/user.json');
+export const STORAGE_STATE_ATC = path.join(__dirname,'.auth/atc_user.json')
 
 /**
  * See https://playwright.dev/docs/test-configuration.
@@ -100,12 +103,11 @@ export default defineConfig({
           ["--start-maximized"]
         },
         viewport: null,
-        storageState: STORAGE_STATE
+        // storageState: STORAGE_STATE
       },
       dependencies: ['setup']
     },
-
-
+    
     {
       name: 'Google Chrome',
       use: { 
