@@ -27,29 +27,22 @@ test.describe('Given the user visits the Sauce Demo site,', () => {
   test('TC-001 - Verify that all Burger Menu elements exist', { 
     tag: ['@burgerMenu', '@burgerMenuSanity', '@Sanity'] }, 
     async () => {
-      const bmOptions = [
-        burgerMenuPage.closeBtn,
-        burgerMenuPage.allItems,
-        burgerMenuPage.about,
-        burgerMenuPage.logout,
-        burgerMenuPage.resetApp
-      ]
-
       await test.step('Open the Burger Menu (BM)', async () => {
         await headerPage.clickHeaderButn(headerPage.locators.burgerMenuButton);
       })
 
       await test.step('Assert existence and visibility of all BM elements', async () => {
-        for (let bmOptElement of bmOptions) {
-          await expect.soft(bmOptElement).toBeAttached();
-          await expect.soft(bmOptElement).toBeVisible();
-        };
-      });
+        for (let [bmKey, bmValue] of Object.entries(burgerMenuPage.bmOptions)) {
+          console.log("bmKey = " + bmKey +  ", bmValue = " + bmValue)
+          await expect.soft(bmValue).toBeAttached();
+          await expect.soft(bmValue).toBeVisible();
 
-      await test.step('Assert the required texts of each element', async () => {
-        const bmOptLength = bmOptions.length;
-        for (let i = 0; i < bmOptLength - 1; i++) {
-          await expect.soft(bmOptions.slice(1)[i]).toHaveText(Object.values(burgerMenuPage.bmOptText)[i]);
+          if (bmKey !== 'close') {
+            await test.step(`Assert the required text of each button -> ${bmKey}`, async () => {
+                const bmText = burgerMenuPage.bmOptText[bmKey];
+                await expect.soft(bmValue).toHaveText(bmText);
+            })
+          }
         };
       });
   });
