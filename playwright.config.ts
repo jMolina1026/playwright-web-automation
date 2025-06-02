@@ -24,7 +24,7 @@ export const STORAGE_STATE_ATC = path.join(__dirname,'.auth/atc_user.json')
  */
 export default defineConfig({
   // Look for test files in the "tests" directory, relative to this configuration file.
-  // testDir: './ui/tests',
+  testDir: './ui/tests',
 
   /* Run tests in files in parallel */
   fullyParallel: true,
