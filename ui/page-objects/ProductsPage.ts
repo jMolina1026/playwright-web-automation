@@ -9,7 +9,9 @@ export default class ProductsPage {
   constructor(readonly page: Page) {
     // Approach for V1 test
     this.locators = {
-      addToCartBtn: page.getByRole('button', { name: 'Add To Cart' })
+      productName: page.locator('div.inventory_item_name'),
+      addToCartBtn: page.getByRole('button', { name: 'Add To Cart' }),
+      removeFromCartBtn: page.getByRole('button', { name: 'Remove' })
     }
   }
 

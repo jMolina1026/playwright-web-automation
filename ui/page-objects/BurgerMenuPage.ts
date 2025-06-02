@@ -1,6 +1,8 @@
-import { expect, type Locator, type Page } from '@playwright/test';
+import { type Locator, type Page } from '@playwright/test';
+import urlPaths from '../helpers/uiPaths'
 import utility from '../helpers/utilities';
 
+const { baseURLs } = urlPaths;
 const { clickElementBtn } = utility
 
 export default class BurgerMenuPage {
@@ -11,6 +13,8 @@ export default class BurgerMenuPage {
   readonly resetApp: Locator;
   readonly testst: Locator;
   readonly bmOptText: Record<string, string>;
+
+  readonly aboutTitle: string = 'Sauce Labs: Cross Browser Testing, Selenium Testing & Mobile Testing';
 
   constructor(readonly page: Page) {
     // Locators

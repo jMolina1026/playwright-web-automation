@@ -1,5 +1,8 @@
 import { defineConfig, devices } from '@playwright/test';
+import urlPaths from './ui/helpers/uiPaths';
 import path from 'path';
+
+const { baseURLs } = urlPaths;
 
 /**
  * Read environment variables from file.
@@ -59,7 +62,7 @@ export default defineConfig({
     /* Base URL to use in actions like `await page.goto('/')`.
      * baseURL: 'http://127.0.0.1:3000',
      */
-    baseURL: 'https://www.saucedemo.com',
+    baseURL: baseURLs.sdBaseUrl,
 
     // Run browser in headless mode.
     headless:  process.env.HEADLESS === 'true' || process.env.HEADLESS === undefined ? true : false,
