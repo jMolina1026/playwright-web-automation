@@ -1,4 +1,7 @@
 import { type Locator, type Page } from '@playwright/test';
+import utility from '../helpers/utilities';
+
+const { clickElementBtn } = utility;
 
 class HeaderPage {
   // Locators
@@ -20,6 +23,10 @@ class HeaderPage {
       headerSecondaryFilter: page.getByRole('combobox'),
       headerSecFilterActive: page.locator('span.active_option')
     }
+  }
+
+  async clickHeaderButn(element: Locator) {
+    await clickElementBtn(element);
   }
 }
 

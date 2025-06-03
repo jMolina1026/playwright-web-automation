@@ -28,15 +28,7 @@ export const test = baseTest.extend<Fixtures>({
       await expect.soft(loginPage.page.getByText('Swag Labs')).toBeVisible();
     })
     await use(loginPage.page);
-  },
-
-  // Using single authentication, every test moving forward will navigate to the home page
-  // authLoggedIn: async ({ page }, use) => {
-  //   await test.step('')
-  //   await page.goto('/inventory.html');
-  //   await expect(page.getByText('Swag Labs')).toBeVisible();
-  //   await use(page);
-  // }
+  }
 });
 
 
