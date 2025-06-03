@@ -2,7 +2,6 @@ import { type Locator, type Page } from '@playwright/test';
 import urlPaths from '../helpers/uiPaths'
 import utility from '../helpers/utilities';
 
-const { baseURLs } = urlPaths;
 const { clickElementBtn } = utility
 
 export default class BurgerMenuPage {
