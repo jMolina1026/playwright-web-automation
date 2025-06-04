@@ -10,7 +10,7 @@ setup('Item added to cart', async ({ loggedInPage, page }) => {
   const productPage = new ProductsPage(loggedInPage);
   const headerPage = new HeaderPage(loggedInPage);
   await setup.step('Click on ATC Button', async () => {
-    await productPage.clickProductPageBtn(productPage.locators.addToCartBtn.first());
+    await productPage.clickProductPageBtn(productPage.addToCartBtn.first());
     await expect(headerPage.locators.shoppingCartBadge).toBeVisible();
   });
 

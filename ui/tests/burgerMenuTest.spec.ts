@@ -55,7 +55,7 @@ test.describe('Given the user visits the Sauce Demo site,', () => {
   test.describe('And Opens the Burger Menu', { tag: ['@burgerMenu', '@burgerMenuRegression', '@Regression'] }, () => {
     test('TC-002 - Clicking on BM option "All Items" takes the user to the home page', async () => {
       await test.step('Click on an item name to open the details', async () => {
-        await productPage.clickProductPageBtn(productPage.locators.productName.first());
+        await productPage.clickProductPageBtn(productPage.productName.first());
         await expect(prodDetailsPage.backBtn).toHaveText('Back to products');
       });
 
@@ -86,7 +86,7 @@ test.describe('Given the user visits the Sauce Demo site,', () => {
   
     test('TC-005 - Clicking on BM option "Reset App" defaults app to original state', async ({ page }) => {
       await test.step('Add Item to the Cart', async () => {
-        await productPage.clickProductPageBtn(productPage.locators.addToCartBtn.first());
+        await productPage.clickProductPageBtn(productPage.addToCartBtn.first());
         await expect(headerPage.locators.shoppingCartBadge).toBeVisible();
         await expect(headerPage.locators.shoppingCartBadge).toHaveText("1");
       });
@@ -100,7 +100,7 @@ test.describe('Given the user visits the Sauce Demo site,', () => {
         })
         await page.reload();
         await expect(headerPage.locators.shoppingCartBadge).not.toBeAttached();
-        await expect(productPage.locators.removeFromCartBtn).not.toBeAttached();
+        await expect(productPage.removeFromCartBtn).not.toBeAttached();
       })
     });
   });
