@@ -20,7 +20,7 @@ class HeaderPage {
       shoppingCartButton: page.locator('a.shopping_cart_link'),
       shoppingCartBadge: page.locator('span.shopping_cart_badge'),
       headerSecondTitle: page.locator('span.title'),
-      headerSecondaryFilter: page.getByRole('combobox'),
+      headerSecondaryFilter: page.locator('select.product_sort_container'),
       headerSecFilterActive: page.locator('span.active_option')
     }
   }
