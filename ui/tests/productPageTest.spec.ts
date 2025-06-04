@@ -8,7 +8,7 @@ import ProductDetailsPage from '../page-objects/ProductDetailsPage';
 import consts from '../helpers/products.constants'
 
 const { sdPaths } = urlPaths;
-const { names, descriptions, prices, addToCartBtns } = consts;
+const { names, descriptions, prices, addToCartBtns, filterOptions } = consts;
 
 let headerPage: HeaderPage;
 let productPage: ProductsPage;
@@ -53,56 +53,74 @@ test.describe('Given the user visits the Sauce Demo site,', () => {
   });
 
 
-  // test.describe('And Opens the Burger Menu', { tag: ['@burgerMenu', '@burgerMenuRegression', '@Regression'] }, () => {
-  //   test('TC-002 - Clicking on BM option "All Items" takes the user to the home page', async () => {
-  //     await test.step('Click on an item name to open the details', async () => {
-  //       await productPage.clickProductPageBtn(productPage.productName.first());
-  //       await expect(prodDetailsPage.backBtn).toHaveText('Back to products');
-  //     });
+  test.describe('And views the products page', { tag: ['@productPage', '@productPageRegression', '@Regression'] }, () => {
+    test('TC-002 - Click on the Add-To-Cart for each product, then Remove from cart', async () => {
+      await test.step('Add items to cart', async () => {
+        const atcElements = await productPage.addToCartBtn.all();
+        await expect(headerPage.locators.shoppingCartBadge).not.toBeAttached();
+        for (let i = 0; i < atcElements.length; i++) {
+          // await productPage.clickProductPageBtn(productPage.addToCartBtn.nth(0));
+          await productPage.clickProductBtnFromList(productPage.addToCartBtn, 0);
+          await expect(headerPage.locators.shoppingCartBadge).toBeAttached();
+          await expect(headerPage.locators.shoppingCartBadge).toBeVisible();
+          await expect(headerPage.locators.shoppingCartBadge).toHaveText(`${i + 1}`);
+        }
+        await expect(productPage.addToCartBtn).not.toBeAttached();
+      });
 
-  //     await test.step('Open the Burger Menu (BM) and click "All Items"', async () => {
-  //       await headerPage.clickHeaderButn(headerPage.locators.burgerMenuButton);
-  //       await burgerMenuPage.clickMenuOptionBtn(burgerMenuPage.allItems);
-  //       await expect(headerPage.locators.headerSecondTitle).toHaveText('Products');
-  //     });
-  //   });
+      await test.step('Remove all items from the cart', async () => {
+        const rfcElements = await productPage.removeFromCartBtn.all();
+        for (let j = rfcElements.length; j > 0; j--) {
+          await expect(headerPage.locators.shoppingCartBadge).toBeAttached();
+          await expect(headerPage.locators.shoppingCartBadge).toBeVisible();
+          await expect(headerPage.locators.shoppingCartBadge).toHaveText(`${j}`);
+          // await productPage.clickProductPageBtn(productPage.removeFromCartBtn.nth(0));
+          await productPage.clickProductBtnFromList(productPage.removeFromCartBtn, 0);
+        }
+        await expect(headerPage.locators.shoppingCartBadge).not.toBeAttached();
+        await expect(productPage.removeFromCartBtn).not.toBeAttached();
+      });
+    });
   
-  //   test('TC-003 - Clicking on BM option "About" takes the user to the about page', async ({ page }) => {
-  //     await test.step('Open the Burger Menu (BM) and click "About"', async () => {
-  //       await headerPage.clickHeaderButn(headerPage.locators.burgerMenuButton);
-  //       await burgerMenuPage.clickMenuOptionBtn(burgerMenuPage.about);
-  //       await expect(page).toHaveURL(baseURLs.sauceLabsUrl + '/');
-  //       await expect(page).toHaveTitle(burgerMenuPage.aboutTitle);
-  //     });
-  //   });
-  
-  //   test('TC-004 - Clicking on BM option "Logout" logs the user out', async ({ page }) => {
-  //     await test.step('Open the Burger Menu (BM) and click "Logout"', async () => {
-  //       await headerPage.clickHeaderButn(headerPage.locators.burgerMenuButton);
-  //       await burgerMenuPage.clickMenuOptionBtn(burgerMenuPage.logout);
-  //       await expect(page).toHaveURL(baseURLs.sdBaseUrl);
-  //       await expect(page).not.toHaveURL(baseURLs.sdBaseUrl + sdPaths.home);
-  //     })
-  //   });
-  
-  //   test('TC-005 - Clicking on BM option "Reset App" defaults app to original state', async ({ page }) => {
-  //     await test.step('Add Item to the Cart', async () => {
-  //       await productPage.clickProductPageBtn(productPage.addToCartBtn.first());
-  //       await expect(headerPage.locators.shoppingCartBadge).toBeVisible();
-  //       await expect(headerPage.locators.shoppingCartBadge).toHaveText("1");
-  //     });
-  
-  //     await test.step('Open the Burger Menu (BM) and click "Reset App"', async () => {
-  //       await headerPage.clickHeaderButn(headerPage.locators.burgerMenuButton);
-  //       await burgerMenuPage.clickMenuOptionBtn(burgerMenuPage.resetApp);
-  //       await test.step('Close the Burger Menu', async () => {
-  //         await burgerMenuPage.clickMenuOptionBtn(burgerMenuPage.closeBtn);
-  //         await expect(burgerMenuPage.closeBtn).not.toBeVisible()
-  //       })
-  //       await page.reload();
-  //       await expect(headerPage.locators.shoppingCartBadge).not.toBeAttached();
-  //       await expect(productPage.removeFromCartBtn).not.toBeAttached();
-  //     })
-  //   });
-  // });
+    test('TC-003 - Verify the Product Sort Options', async ({ page }) => {
+      await test.step('Sorts the product List', async () => {
+        let i = 0;
+        const productNames = await productPage.productName.all();
+        for (const filterOption in filterOptions) {
+          const optionText = Object.values(filterOptions)[i];
+          const filterElement = headerPage.locators.headerSecondaryFilter;
+          await productPage.selectFilterOption(filterElement, optionText);
+          await expect(filterElement.locator(`option[value="${filterOption}"]`)).toHaveText(optionText);
+          await expect(headerPage.locators.headerSecFilterActive).toHaveText(optionText);
+          
+          for (let j = 0; j < productNames.length; j++) {
+            const productName = productPage.productName.nth(j);
+            const productPrice = productPage.productPrice.nth(j);
+            switch(filterOption) {
+              case 'az': 
+                await expect(productName).toHaveText(Object.values(names)[j]);
+                break;
+              case 'za': 
+                const revNames = Object.values(names).sort().reverse();
+                await expect(productName).toHaveText(Object.values(revNames)[j]);
+                break;
+              case 'lohi':
+                const lohiPrices = Object.values(prices).sort((a, b) => 
+                  parseFloat(a.slice(1)) - parseFloat(b.slice(1)));
+                await expect(productPrice).toHaveText(Object.values(lohiPrices)[j]);
+                break;
+              case 'hilo':
+                const hiloPrices = Object.values(prices).sort((a, b) => 
+                  parseFloat(a.slice(1)) - parseFloat(b.slice(1))).reverse();
+                await expect(productPrice).toHaveText(Object.values(hiloPrices)[j]);
+                break;
+              default: throw new Error('Nothing to sort');
+            };
+          };
+          await page.waitForTimeout(500);
+          i++;
+        };
+      });
+    });
+  });
 });

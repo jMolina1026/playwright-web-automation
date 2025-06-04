@@ -37,11 +37,21 @@ async function clickElementBtn(element: Locator) {
   await element.click();
 }
 
+async function clickElementByIndex(element: Locator, index: number) {
+  await element.nth(index).click();
+}
+
+async function selectElementOption(element: Locator, label: string) {
+  await element.selectOption(label);
+}
+
 export default {
   gotoSite,
   wait,
   closeBrowser,
   waitForLoadState,
   isElementPresent,
-  clickElementBtn
+  clickElementBtn,
+  clickElementByIndex,
+  selectElementOption
 }

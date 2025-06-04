@@ -1,7 +1,7 @@
 import { expect, type Locator, type Page } from '@playwright/test';
 import utility from '../helpers/utilities';
 
-const { clickElementBtn } = utility
+const { clickElementBtn, clickElementByIndex, selectElementOption } = utility
 
 export default class ProductsPage {
   readonly locators: Record<string,Locator>;
@@ -22,9 +22,31 @@ export default class ProductsPage {
     this.productImage = page.locator('img.inventory_item_img');
   }
 
+  /**
+   * @description Clicks a single element from a locator that returns only one element
+   * @param {Locator} element - locator used to find an element
+   */
   async clickProductPageBtn(element: Locator) {
-    await clickElementBtn(element)
-  }
+    await clickElementBtn(element);
+  };
+
+  /**
+   * @description Clicks a single element from a locator that returns a list of elements
+   * @param {Locator} element - locator used to find an element
+   * @param {number} index - position of index in list
+   */
+  async clickProductBtnFromList(element: Locator, index: number) {
+    await clickElementByIndex(element, index);
+  };
+
+  /**
+   * @description
+   * @param {Locator} element - locator used to find an element
+   * @param {string} label - text of option in list
+   */
+  async selectFilterOption(element: Locator, label: string) {
+    await selectElementOption(element, label);
+  };
 
   /**
    * @description Object for product options
@@ -38,7 +60,7 @@ export default class ProductsPage {
       // rfcBten: this.removeFromCartBtn,
       prodImg: this.productImage
     };
-  }
+  };
 
   /**
    * @description This switches between different objects to use in text comparison for elements
@@ -61,5 +83,5 @@ export default class ProductsPage {
         throw new Error(`Unknown prodKey: ${prodKey}`);
     }
     return text;
-  }
+  };
 }
