@@ -21,8 +21,8 @@ test.describe('Given the user visits the Sauce Demo site,', () => {
   test.beforeEach(async({ page }) => {
     headerPage = new HeaderPage(page);
     productPage = new ProductsPage(page);
-    burgerMenuPage = new BurgerMenuPage(page);
-    prodDetailsPage = new ProductDetailsPage(page);
+    burgerMenuPage = new BurgerMenuPage(page); // remove
+    prodDetailsPage = new ProductDetailsPage(page); // remove
 
     await test.step('Navigate to Product Page', async () => {
       await page.goto(sdPaths.home);
@@ -59,7 +59,6 @@ test.describe('Given the user visits the Sauce Demo site,', () => {
         const atcElements = await productPage.addToCartBtn.all();
         await expect(headerPage.locators.shoppingCartBadge).not.toBeAttached();
         for (let i = 0; i < atcElements.length; i++) {
-          // await productPage.clickProductPageBtn(productPage.addToCartBtn.nth(0));
           await productPage.clickProductBtnFromList(productPage.addToCartBtn, 0);
           await expect(headerPage.locators.shoppingCartBadge).toBeAttached();
           await expect(headerPage.locators.shoppingCartBadge).toBeVisible();
@@ -74,7 +73,6 @@ test.describe('Given the user visits the Sauce Demo site,', () => {
           await expect(headerPage.locators.shoppingCartBadge).toBeAttached();
           await expect(headerPage.locators.shoppingCartBadge).toBeVisible();
           await expect(headerPage.locators.shoppingCartBadge).toHaveText(`${j}`);
-          // await productPage.clickProductPageBtn(productPage.removeFromCartBtn.nth(0));
           await productPage.clickProductBtnFromList(productPage.removeFromCartBtn, 0);
         }
         await expect(headerPage.locators.shoppingCartBadge).not.toBeAttached();

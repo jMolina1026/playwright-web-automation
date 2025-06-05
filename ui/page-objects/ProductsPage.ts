@@ -57,7 +57,6 @@ export default class ProductsPage {
       prodDesc: this.productDesc,
       prodPrice: this.productPrice,
       atcBtn: this.addToCartBtn,
-      // rfcBten: this.removeFromCartBtn,
       prodImg: this.productImage
     };
   };
