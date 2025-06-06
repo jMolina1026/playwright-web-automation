@@ -35,4 +35,25 @@ export default class ProductDetailsPage {
   async clickProductDetailsBtn(element: Locator) {
     await clickElementBtn(element)
   }
+
+  async getProductDetailsText(element: Locator) {
+    return getElementText(element)
+  };
+
+  /**
+   * @description This switches between different objects to use in text comparison for elements
+   * @param {string} itemKey - the product/item key tied to a specific locator
+   * @returns string/text
+   */
+  async switchProdDetailsObj(itemKey: string) {
+    let itemText: string;
+    switch (itemKey) {
+      case 'name' : itemText = await this.getProductDetailsText(this.detailsName);  break;
+      case 'desc' : itemText = await this.getProductDetailsText(this.detailsDesc);  break;
+      case 'price': itemText = await this.getProductDetailsText(this.detailsPrice); break;
+      default:
+        throw new Error(`Unknown itemKey: ${itemKey}`);
+    }
+    return itemText;
+  };
 }
