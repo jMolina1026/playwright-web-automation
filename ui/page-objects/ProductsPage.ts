@@ -1,7 +1,7 @@
 import { expect, type Locator, type Page } from '@playwright/test';
 import utility from '../helpers/utilities';
 
-const { clickElementBtn, clickElementByIndex, selectElementOption } = utility
+const { clickElementBtn, clickElementByIndex, selectElementOption, getElementText } = utility
 
 export default class ProductsPage {
   readonly locators: Record<string,Locator>;
@@ -82,5 +82,9 @@ export default class ProductsPage {
         throw new Error(`Unknown prodKey: ${prodKey}`);
     }
     return text;
+  };
+
+  async getProductsText(element: Locator) {
+    return getElementText(element)
   };
 }

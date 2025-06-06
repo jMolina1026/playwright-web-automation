@@ -45,6 +45,10 @@ async function selectElementOption(element: Locator, label: string) {
   await element.selectOption(label);
 }
 
+async function getElementText(element: Locator) {
+  return await element.innerText();
+}
+
 export default {
   gotoSite,
   wait,
@@ -53,5 +57,6 @@ export default {
   isElementPresent,
   clickElementBtn,
   clickElementByIndex,
-  selectElementOption
+  selectElementOption,
+  getElementText
 }
