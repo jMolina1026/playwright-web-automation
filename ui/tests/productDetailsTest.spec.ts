@@ -74,9 +74,6 @@ test.describe('Given the user visits the Sauce Demo site,', () => {
           itemTextArray.push(itemText);
         }
 
-        console.log(itemTextArray);
-        console.log(itemTextArray.length);
-
         await test.step('Click on the add to cart button and navigate to the shopping cart', async () => {
           await prodDetailsPage.clickProductDetailsBtn(prodDetailsPage.detailsATC);
           await expect(headerPage.locators.shoppingCartBadge).toBeAttached();
@@ -94,6 +91,18 @@ test.describe('Given the user visits the Sauce Demo site,', () => {
             i++;
           }
         });
+      });
+    });
+
+    test('TC-003 - Verify that the user can go back to products', async () => {
+      await test.step('Click on the product name and navigate to the details page', async () => {
+        await productPage.clickProductPageBtn(productPage.productName.first());
+        await expect(prodDetailsPage.backBtn).toHaveText('Back to products');
+      });
+
+      await test.step('Click on Back to products button', async () => {
+        await prodDetailsPage.clickProductDetailsBtn(prodDetailsPage.backBtn);
+        await expect(headerPage.locators.headerSecondTitle).toHaveText('Products');
       });
     });
   });
