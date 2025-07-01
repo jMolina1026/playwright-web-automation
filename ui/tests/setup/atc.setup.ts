@@ -1,16 +1,16 @@
 import { test as setup, expect } from '../../../ui/fixtures/loginFixture'
-import { STORAGE_STATE, STORAGE_STATE_ATC } from '../../../playwright.config';
+import { STORAGE_STATE_ATC } from '../../../playwright.config';
 import ProductsPage from '../../page-objects/ProductsPage';
 import HeaderPage from '../../page-objects/HeaderPage';
 
 
-setup.use({ storageState: STORAGE_STATE });
-
-setup('Item added to cart', async ({ loggedInPage, page }) => {
+setup('Item added to cart', async ({ loggedInPage }) => {
   const productPage = new ProductsPage(loggedInPage);
   const headerPage = new HeaderPage(loggedInPage);
   await setup.step('Click on ATC Button', async () => {
-    await productPage.clickProductPageBtn(productPage.addToCartBtn.first());
+    for (let i = 0; i < 3; i++) {
+      await productPage.clickProductPageBtn(productPage.addToCartBtn.first());
+    }
     await expect(headerPage.locators.shoppingCartBadge).toBeVisible();
   });
 

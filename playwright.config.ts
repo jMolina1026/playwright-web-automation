@@ -99,7 +99,7 @@ export default defineConfig({
       name: 'Google Chrome Custom',
       use: { 
         channel: 'chrome',
-        userAgent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.7151.27 Safari/537.36",
+        userAgent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.7258.5 Safari/537.36",
         launchOptions: {
           args: process.env.HEADLESS === 'true' ?
           ["--window-size=1920,1080"] :
