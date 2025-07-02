@@ -1,14 +1,14 @@
 import { test, expect } from '../fixtures/loginFixture';
 import { STORAGE_STATE_ATC } from '../../playwright.config';
-import urlPaths from '../helpers/uiPaths';
 import HeaderPage from '../page-objects/HeaderPage';
 import ProductsPage from '../page-objects/ProductsPage';
 import ProductDetailsPage from '../page-objects/ProductDetailsPage';
 import ShoppingCartPage from '../page-objects/ShoppingCartPage';
-import consts from '../helpers/products.constants'
+import consts from '../helpers/products.constants';
+import site from '../helpers/domains';
 
-const { baseURLs, sdPaths } = urlPaths;
 const { shoppingCartTexts } = consts;
+const { paths } = site;
 
 let headerPage: HeaderPage;
 let productPage: ProductsPage;
@@ -25,13 +25,13 @@ test.describe('Given the user visits the Sauce Demo site,', () => {
     shoppingCartPage = new ShoppingCartPage(page);
 
     await test.step('Navigate to Product Page', async () => {
-      await page.goto(sdPaths.home);
+      await page.goto(paths.home);
       await expect(page.getByText('Swag Labs')).toBeVisible();
     })
   })
   
   test.describe('And views the Shopping Cart page', { tag: ['@shopCart', '@shopCartSanity', '@Sanity'] }, () => {
-    test.only('TC-001 - Verify that all Shopping Cart element exist', async () => {
+    test('TC-001 - Verify that all Shopping Cart element exist', async () => {
       await test.step('Click on the Shopping Cart and navigate to the Shopping Cart page', async () => {
         await headerPage.clickHeaderButn(headerPage.locators.shoppingCartButton);
       })

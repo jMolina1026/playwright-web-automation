@@ -1,13 +1,13 @@
 import { test, expect } from '../fixtures/loginFixture';
 import { STORAGE_STATE } from '../../playwright.config';
-import urlPaths from '../helpers/uiPaths';
 import HeaderPage from '../page-objects/HeaderPage';
 import ProductsPage from '../page-objects/ProductsPage';
 import BurgerMenuPage from '../page-objects/BurgerMenuPage';
 import ProductDetailsPage from '../page-objects/ProductDetailsPage';
 import consts from '../helpers/products.constants'
+import site from '../helpers/domains';
 
-const { sdPaths } = urlPaths;
+const { paths } = site;
 const { names, descriptions, prices, addToCartBtns, filterOptions } = consts;
 
 let headerPage: HeaderPage;
@@ -25,7 +25,7 @@ test.describe('Given the user visits the Sauce Demo site,', () => {
     prodDetailsPage = new ProductDetailsPage(page); // remove
 
     await test.step('Navigate to Product Page', async () => {
-      await page.goto(sdPaths.home);
+      await page.goto(paths.home);
       await expect(page.getByText('Swag Labs')).toBeVisible();
     })
   })

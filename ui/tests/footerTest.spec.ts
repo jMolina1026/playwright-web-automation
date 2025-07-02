@@ -1,9 +1,11 @@
 import { test, expect } from '../fixtures/loginFixture';
 import { STORAGE_STATE } from '../../playwright.config';
-import urlPaths from '../helpers/uiPaths';
 import FooterPage from '../page-objects/FooterPage';
+import site from '../helpers/domains'
+import utility from '../helpers/utilities'
 
-const { sdPaths, otherUrls, baseURLs } = urlPaths;
+const { otherUrls, paths } = site;
+const { chooseEnvDomain } = utility;
 
 let footerPage: FooterPage;
 
@@ -12,9 +14,8 @@ test.describe('Given the user visits the Sauce Demo site,', () => {
 
   test.beforeEach(async({ page }) => {
     footerPage = new FooterPage(page);
-
     await test.step('Navigate to the Footer Section', async () => {
-      await page.goto(sdPaths.home);
+      await page.goto(paths.home);
       await expect(page.getByText('Swag Labs')).toBeVisible();
       await footerPage.facebookBtn.scrollIntoViewIfNeeded();
     })
@@ -62,7 +63,7 @@ test.describe('Given the user visits the Sauce Demo site,', () => {
               await expect(newTab).toHaveURL(Object.values(otherUrls)[i]);
               await newTab.close();
               await page.bringToFront();
-              await expect(page).toHaveURL(baseURLs.sdBaseUrl + sdPaths.home);
+              await expect(page).toHaveURL(chooseEnvDomain(process.env.ENVIRONMENT) + paths.home);
               await page.waitForTimeout(500);
             } else {
               throw new Error(`Tab at index ${tabIndex} doesn't exist.`);

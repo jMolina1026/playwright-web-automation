@@ -1,12 +1,14 @@
 import { test, expect } from '../fixtures/loginFixture';
 import { STORAGE_STATE } from '../../playwright.config';
-import urlPaths from '../helpers/uiPaths';
 import HeaderPage from '../page-objects/HeaderPage';
 import ProductsPage from '../page-objects/ProductsPage';
 import BurgerMenuPage from '../page-objects/BurgerMenuPage';
 import ProductDetailsPage from '../page-objects/ProductDetailsPage';
+import site from '../helpers/domains'
+import utility from '../helpers/utilities'
 
-const { baseURLs, sdPaths } = urlPaths;
+const { otherUrls, paths } = site;
+const { chooseEnvDomain } = utility;
 
 let headerPage: HeaderPage;
 let productPage: ProductsPage;
@@ -23,7 +25,7 @@ test.describe('Given the user visits the Sauce Demo site,', () => {
     prodDetailsPage = new ProductDetailsPage(page);
 
     await test.step('Navigate to Product Page', async () => {
-      await page.goto(sdPaths.home);
+      await page.goto(paths.home);
       await expect(page.getByText('Swag Labs')).toBeVisible();
     })
   })
@@ -70,7 +72,7 @@ test.describe('Given the user visits the Sauce Demo site,', () => {
       await test.step('Open the Burger Menu (BM) and click "About"', async () => {
         await headerPage.clickHeaderButn(headerPage.locators.burgerMenuButton);
         await burgerMenuPage.clickMenuOptionBtn(burgerMenuPage.about);
-        await expect(page).toHaveURL(baseURLs.sauceLabsUrl + '/');
+        await expect(page).toHaveURL(otherUrls.sauceLabsUrl + '/');
         await expect(page).toHaveTitle(burgerMenuPage.aboutTitle);
       });
     });
@@ -79,8 +81,8 @@ test.describe('Given the user visits the Sauce Demo site,', () => {
       await test.step('Open the Burger Menu (BM) and click "Logout"', async () => {
         await headerPage.clickHeaderButn(headerPage.locators.burgerMenuButton);
         await burgerMenuPage.clickMenuOptionBtn(burgerMenuPage.logout);
-        await expect(page).toHaveURL(baseURLs.sdBaseUrl);
-        await expect(page).not.toHaveURL(baseURLs.sdBaseUrl + sdPaths.home);
+        await expect(page).toHaveURL(chooseEnvDomain(process.env.ENVIRONMENT));
+        await expect(page).not.toHaveURL(chooseEnvDomain(process.env.ENVIRONMENT) + paths.home);
       })
     });
   

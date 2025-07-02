@@ -1,12 +1,12 @@
 import { test, expect } from '../fixtures/loginFixture';
 import { STORAGE_STATE } from '../../playwright.config';
-import urlPaths from '../helpers/uiPaths';
 import HeaderPage from '../page-objects/HeaderPage';
 import ProductsPage from '../page-objects/ProductsPage';
 import ProductDetailsPage from '../page-objects/ProductDetailsPage';
 import ShoppingCartPage from '../page-objects/ShoppingCartPage';
+import site from '../helpers/domains';
 
-const { baseURLs, sdPaths } = urlPaths;
+const { paths } = site;
 
 let headerPage: HeaderPage;
 let productPage: ProductsPage;
@@ -23,7 +23,7 @@ test.describe('Given the user visits the Sauce Demo site,', () => {
     shoppingCartPage = new ShoppingCartPage(page);
 
     await test.step('Navigate to Product Page', async () => {
-      await page.goto(sdPaths.home);
+      await page.goto(paths.home);
       await expect(page.getByText('Swag Labs')).toBeVisible();
     })
   })
