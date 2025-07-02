@@ -1,27 +1,25 @@
-import { test, expect } from '../fixtures/loginFixture';
+import { test, expect } from '../fixtures/page-objects-Fixtures';
 import { STORAGE_STATE } from '../../playwright.config';
-import urlPaths from '../helpers/uiPaths';
-import FooterPage from '../page-objects/FooterPage';
+import site from '../helpers/domains'
+import utility from '../helpers/utilities'
 
-const { sdPaths, otherUrls, baseURLs } = urlPaths;
+const { otherUrls, paths } = site;
+const { chooseEnvDomain } = utility;
 
-let footerPage: FooterPage;
 
 test.describe('Given the user visits the Sauce Demo site,', () => {
   test.use({ storageState: STORAGE_STATE });
 
-  test.beforeEach(async({ page }) => {
-    footerPage = new FooterPage(page);
-
+  test.beforeEach(async({ page, footerPage }) => {
     await test.step('Navigate to the Footer Section', async () => {
-      await page.goto(sdPaths.home);
+      await page.goto(paths.home);
       await expect(page.getByText('Swag Labs')).toBeVisible();
       await footerPage.facebookBtn.scrollIntoViewIfNeeded();
     })
   })
   
   test.describe('And views the footer section', { tag: ['@footer', '@footerSanity', '@Sanity'] }, () => {
-    test('TC-001 - Verify that all footer elements exist', async ({ page }) => {
+    test('TC-001 - Verify that all footer elements exist', async ({ page, footerPage }) => {
       await test.step('Assert existence and visibility of all Footer elements', async () => {
         const footerValues = Object.values(footerPage.eachFooterElement);
         for (let fValue of footerValues) {
@@ -39,7 +37,7 @@ test.describe('Given the user visits the Sauce Demo site,', () => {
 
 
   test.describe('And views the Footer section', { tag: ['@footer', '@footerRegression', '@Regression'] }, () => {
-    test('TC-002 - Verify that clicking each social media icon executes proper site navigation', async ({ page }) => {
+    test('TC-002 - Verify that clicking each social media icon executes proper site navigation', async ({ page, footerPage }) => {
       await test.step('Click each social media option', async () => {
         const footerValues = Object.values(footerPage.eachFooterElement);
         let i = 0;
@@ -62,7 +60,7 @@ test.describe('Given the user visits the Sauce Demo site,', () => {
               await expect(newTab).toHaveURL(Object.values(otherUrls)[i]);
               await newTab.close();
               await page.bringToFront();
-              await expect(page).toHaveURL(baseURLs.sdBaseUrl + sdPaths.home);
+              await expect(page).toHaveURL(chooseEnvDomain(process.env.ENVIRONMENT) + paths.home);
               await page.waitForTimeout(500);
             } else {
               throw new Error(`Tab at index ${tabIndex} doesn't exist.`);

@@ -4,11 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test:e2e": "npx playwright test --project 'Google Chrome Custom'",
-    "test:sanity": "npx playwright test --grep '@Sanity'  --project 'Google Chrome Custom'",
-    "test:regression": "npx playwright test --grep '@Regression'  --project 'Google Chrome Custom'",
-    "test:head:sanity": "HEADLESS=false npx playwright test --grep '@Sanity'  --project 'Google Chrome Custom'",
-    "test:head:regression": "HEADLESS=false npx playwright test --grep '@Regression'  --project 'Google Chrome Custom'"
+    "test:stage:e2e": "ENVIRONMENT=stage npx playwright test --project 'Google Chrome Custom'",
+    "test:headless:stage:sanity": "ENVIRONMENT=stage npx playwright test --grep '@Sanity'  --project 'Google Chrome Custom'",
+    "test:headleass:stage:regression": "ENVIRONMENT=stage npx playwright test --grep '@Regression'  --project 'Google Chrome Custom'",
+    "test:head:stage:sanity": "HEADLESS=false ENVIRONMENT=stage npx playwright test --grep '@Sanity'  --project 'Google Chrome Custom'",
+    "test:head:stage:regression": "HEADLESS=false ENVIRONMENT=stage npx playwright test --grep '@Regression'  --project 'Google Chrome Custom'"
   },
   "keywords": [],
   "author": "",

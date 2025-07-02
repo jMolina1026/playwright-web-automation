@@ -4,6 +4,9 @@
  */
 // Imports
 import { Locator, Page } from '@playwright/test';
+import site from '../helpers/domains'
+
+const { stage, dev, production } = site;
 
 /**
  * ============================================================
@@ -11,6 +14,33 @@ import { Locator, Page } from '@playwright/test';
  * ===========================================================
  */
 
+/**
+ * @description Choose which environment to set domain
+ * @param env - Environment set by ENVIRONMENT variable defined in CLI, options => stage, dev, production
+ * @returns domain
+ */
+function chooseEnvDomain(env: string | undefined) {
+  switch (env) {
+    case 'production': return production.domains.sdBaseUrl;
+    case 'dev': return dev.domains.sdBaseUrl;
+    case 'stage': return stage.domains.sdBaseUrl;
+    default: throw new Error(`Unknown platform environment: ${env}, \nshould be one of: stage, dev, production`);
+  }
+}
+
+/**
+ * @description Choose which environment to receive paths from
+ * @param env - Environment set by ENVIRONMENT variable defined in CLI, options => stage, dev, production
+ * @returns path to the home page
+ */
+// function chooseEnvHome(env: string | undefined) {
+//   switch (env) {
+//     case 'production': return production.paths.home;
+//     case 'dev': return dev.paths.home;
+//     case 'stage': return stage.paths.home;
+//     default: throw new Error(`Unknown platform environment: ${env}, \nshould be one of: stage, dev, production`);
+//   }
+// }
 
 async function gotoSite(page: Page, path: string) {
   await page.goto(path);
@@ -50,6 +80,7 @@ async function getElementText(element: Locator) {
 }
 
 export default {
+  chooseEnvDomain,
   gotoSite,
   wait,
   closeBrowser,

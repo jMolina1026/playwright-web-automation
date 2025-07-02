@@ -1,8 +1,9 @@
 import { defineConfig, devices } from '@playwright/test';
-import urlPaths from './ui/helpers/uiPaths';
 import path from 'path';
+import site from './ui/helpers/domains'
+import utility from './ui/helpers/utilities'
 
-const { baseURLs } = urlPaths;
+const { chooseEnvDomain } = utility
 
 /**
  * Read environment variables from file.
@@ -21,6 +22,9 @@ const { baseURLs } = urlPaths;
  */ 
 export const STORAGE_STATE = path.join(__dirname, '.auth/user.json');
 export const STORAGE_STATE_ATC = path.join(__dirname,'.auth/atc_user.json')
+
+// Define what site environment to use => stage, dev, production
+const env = process.env.ENVIRONMENT || 'stage';
 
 /**
  * See https://playwright.dev/docs/test-configuration.
@@ -62,7 +66,7 @@ export default defineConfig({
     /* Base URL to use in actions like `await page.goto('/')`.
      * baseURL: 'http://127.0.0.1:3000',
      */
-    baseURL: baseURLs.sdBaseUrl,
+    baseURL: chooseEnvDomain(env),
 
     // Run browser in headless mode.
     headless:  process.env.HEADLESS === 'true' || process.env.HEADLESS === undefined ? true : false,
@@ -99,7 +103,7 @@ export default defineConfig({
       name: 'Google Chrome Custom',
       use: { 
         channel: 'chrome',
-        userAgent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.7151.27 Safari/537.36",
+        userAgent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.7258.5 Safari/537.36",
         launchOptions: {
           args: process.env.HEADLESS === 'true' ?
           ["--window-size=1920,1080"] :

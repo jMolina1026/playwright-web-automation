@@ -55,7 +55,7 @@ const shoppingCartTexts = {
   desc: 'Description',
   contShopping: 'Continue Shopping',
   checkout: 'Checkout',
-  itemQty: '1',
+  itemQty: ['1', '1', '1'], // simulating if every item quantity had different amount added
   itemRemove: 'Remove'
 }
 

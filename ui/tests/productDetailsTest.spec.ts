@@ -1,35 +1,21 @@
-import { test, expect } from '../fixtures/loginFixture';
+import { test, expect } from '../fixtures/page-objects-Fixtures';
 import { STORAGE_STATE } from '../../playwright.config';
-import urlPaths from '../helpers/uiPaths';
-import HeaderPage from '../page-objects/HeaderPage';
-import ProductsPage from '../page-objects/ProductsPage';
-import ProductDetailsPage from '../page-objects/ProductDetailsPage';
-import ShoppingCartPage from '../page-objects/ShoppingCartPage';
+import site from '../helpers/domains';
 
-const { baseURLs, sdPaths } = urlPaths;
-
-let headerPage: HeaderPage;
-let productPage: ProductsPage;
-let prodDetailsPage: ProductDetailsPage;
-let shoppingCartPage: ShoppingCartPage;
+const { paths } = site;
 
 test.describe('Given the user visits the Sauce Demo site,', () => {
   test.use({ storageState: STORAGE_STATE });
 
   test.beforeEach(async({ page }) => {
-    headerPage = new HeaderPage(page);
-    productPage = new ProductsPage(page);
-    prodDetailsPage = new ProductDetailsPage(page);
-    shoppingCartPage = new ShoppingCartPage(page);
-
     await test.step('Navigate to Product Page', async () => {
-      await page.goto(sdPaths.home);
+      await page.goto(paths.home);
       await expect(page.getByText('Swag Labs')).toBeVisible();
     })
   })
   
   test.describe('And views the Products Details page', { tag: ['@prodDetails', '@prodDetailsSanity', '@Sanity'] }, () => {
-    test('TC-001 - Verify that all Product Details elements exist', async () => {
+    test('TC-001 - Verify that all Product Details elements exist', async ({ productPage, prodDetailsPage }) => {
       const itemTextArray: string[] = [];
       await test.step('Store the product page item texts', async () => {
         const items = Object.values(productPage.eachProductElement);
@@ -64,7 +50,7 @@ test.describe('Given the user visits the Sauce Demo site,', () => {
 
 
   test.describe('And views the Products Details page', { tag: ['@prodDetails', '@prodDetailsRegression', '@Regression'] }, () => {
-    test('TC-002 - Verify user can add item to cart from Product Details Page', async () => {
+    test('TC-002 - Verify user can add item to cart from Product Details Page', async ({ headerPage, productPage, prodDetailsPage, shoppingCartPage }) => {
       await test.step('Click on the product name and navigate to the details page', async () => {
         await productPage.clickProductPageBtn(productPage.productName.first());
         const itemTextArray: string[] = [];
@@ -94,7 +80,7 @@ test.describe('Given the user visits the Sauce Demo site,', () => {
       });
     });
 
-    test('TC-003 - Verify that the user can go back to products', async () => {
+    test('TC-003 - Verify that the user can go back to products', async ({ headerPage, productPage, prodDetailsPage }) => {
       await test.step('Click on the product name and navigate to the details page', async () => {
         await productPage.clickProductPageBtn(productPage.productName.first());
         await expect(prodDetailsPage.backBtn).toHaveText('Back to products');
