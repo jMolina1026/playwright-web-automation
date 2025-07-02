@@ -4,6 +4,7 @@ import utility from '../helpers/utilities';
 const { clickElementBtn } = utility
 
 export default class FooterPage {
+  readonly page: Page;
   // Locators
   readonly twitterBtn: Locator;
   readonly facebookBtn: Locator;
@@ -13,7 +14,8 @@ export default class FooterPage {
   // Strings
   readonly copyRight: string = '© 2025 Sauce Labs. All Rights Reserved. Terms of Service | Privacy Policy'
 
-  constructor(readonly page: Page) {
+  constructor(page: Page) {
+    this.page = page;
     // Locators
     this.twitterBtn = page.getByRole('link', { name: 'Twitter' });
     this.facebookBtn = page.getByRole('link', { name: 'Facebook' });

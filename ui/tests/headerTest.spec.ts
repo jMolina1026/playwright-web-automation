@@ -1,21 +1,13 @@
-import { test, expect } from '../fixtures/loginFixture';
+import { test, expect } from '../fixtures/page-objects-Fixtures';
 import { STORAGE_STATE_ATC } from '../../playwright.config';
-import HeaderPage from '../page-objects/HeaderPage';
-import ProductsPage from '../page-objects/ProductsPage';
 import site from '../helpers/domains';
 
 const { paths } = site;
-
-let headerPage: HeaderPage;
-let productPage: ProductsPage;
 
 test.describe('Given the user visits the Sauce Demo site,', () => {
   test.use({ storageState: STORAGE_STATE_ATC })
 
   test.beforeEach(async({ page }) => {
-    headerPage = new HeaderPage(page);
-    productPage = new ProductsPage(page);
-
     await test.step('Navigate to Product Page', async () => {
       await page.goto(paths.home);
       await expect(page.getByText('Swag Labs')).toBeVisible();
@@ -24,7 +16,7 @@ test.describe('Given the user visits the Sauce Demo site,', () => {
   
   test('TC-001 - Verify that all Header elements exist', { 
     tag: ['@header', '@headerSanity', '@Sanity'] }, 
-    async () => {
+    async ({ headerPage }) => {
       await test.step('Assert existence and visibility of all necessary elements', async () => {
         for (const element of Object.values(headerPage.locators)) {
           console.log('element = ' + element);

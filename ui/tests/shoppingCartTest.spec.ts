@@ -1,29 +1,15 @@
-import { test, expect } from '../fixtures/loginFixture';
+import { test, expect } from '../fixtures/page-objects-Fixtures';
 import { STORAGE_STATE_ATC } from '../../playwright.config';
-import HeaderPage from '../page-objects/HeaderPage';
-import ProductsPage from '../page-objects/ProductsPage';
-import ProductDetailsPage from '../page-objects/ProductDetailsPage';
-import ShoppingCartPage from '../page-objects/ShoppingCartPage';
 import consts from '../helpers/products.constants';
 import site from '../helpers/domains';
 
 const { shoppingCartTexts } = consts;
 const { paths } = site;
 
-let headerPage: HeaderPage;
-let productPage: ProductsPage;
-let prodDetailsPage: ProductDetailsPage;
-let shoppingCartPage: ShoppingCartPage;
-
 test.describe('Given the user visits the Sauce Demo site,', () => {
   test.use({ storageState: STORAGE_STATE_ATC });
 
   test.beforeEach(async({ page }) => {
-    headerPage = new HeaderPage(page);
-    productPage = new ProductsPage(page);
-    prodDetailsPage = new ProductDetailsPage(page);
-    shoppingCartPage = new ShoppingCartPage(page);
-
     await test.step('Navigate to Product Page', async () => {
       await page.goto(paths.home);
       await expect(page.getByText('Swag Labs')).toBeVisible();
@@ -31,7 +17,7 @@ test.describe('Given the user visits the Sauce Demo site,', () => {
   })
   
   test.describe('And views the Shopping Cart page', { tag: ['@shopCart', '@shopCartSanity', '@Sanity'] }, () => {
-    test('TC-001 - Verify that all Shopping Cart element exist', async () => {
+    test('TC-001 - Verify that all Shopping Cart element exist', async ( { headerPage, shoppingCartPage }) => {
       await test.step('Click on the Shopping Cart and navigate to the Shopping Cart page', async () => {
         await headerPage.clickHeaderButn(headerPage.locators.shoppingCartButton);
       })
@@ -60,7 +46,7 @@ test.describe('Given the user visits the Sauce Demo site,', () => {
       })
     });
 
-    test('TC-002 - Verify that all Shopping Cart element texts are correct', async () => {
+    test('TC-002 - Verify that all Shopping Cart element texts are correct', async ({ headerPage, productPage, shoppingCartPage }) => {
       await test.step('Store the product page items texts', async () => {
         const itemTextArray: string[][] = []; // array of string arrays
         for (let i = 0; i < 3; i++) {

@@ -1,29 +1,15 @@
-import { test, expect } from '../fixtures/loginFixture';
+import { test, expect } from '../fixtures/page-objects-Fixtures';
 import { STORAGE_STATE } from '../../playwright.config';
-import HeaderPage from '../page-objects/HeaderPage';
-import ProductsPage from '../page-objects/ProductsPage';
-import BurgerMenuPage from '../page-objects/BurgerMenuPage';
-import ProductDetailsPage from '../page-objects/ProductDetailsPage';
 import site from '../helpers/domains'
 import utility from '../helpers/utilities'
 
 const { otherUrls, paths } = site;
 const { chooseEnvDomain } = utility;
 
-let headerPage: HeaderPage;
-let productPage: ProductsPage;
-let burgerMenuPage: BurgerMenuPage;
-let prodDetailsPage: ProductDetailsPage;
-
 test.describe('Given the user visits the Sauce Demo site,', () => {
   test.use({ storageState: STORAGE_STATE });
 
   test.beforeEach(async({ page }) => {
-    headerPage = new HeaderPage(page);
-    productPage = new ProductsPage(page);
-    burgerMenuPage = new BurgerMenuPage(page);
-    prodDetailsPage = new ProductDetailsPage(page);
-
     await test.step('Navigate to Product Page', async () => {
       await page.goto(paths.home);
       await expect(page.getByText('Swag Labs')).toBeVisible();
@@ -31,7 +17,7 @@ test.describe('Given the user visits the Sauce Demo site,', () => {
   })
   
   test.describe('And Opens the Burger Menu', { tag: ['@burgerMenu', '@burgerMenuSanity', '@Sanity'] }, () => {
-    test('TC-001 - Verify that all Burger Menu elements exist', async () => {
+    test('TC-001 - Verify that all Burger Menu elements exist', async ({ headerPage, burgerMenuPage }) => {
       await test.step('Open the Burger Menu (BM)', async () => {
         await headerPage.clickHeaderButn(headerPage.locators.burgerMenuButton);
       })
@@ -55,7 +41,7 @@ test.describe('Given the user visits the Sauce Demo site,', () => {
 
 
   test.describe('And Opens the Burger Menu', { tag: ['@burgerMenu', '@burgerMenuRegression', '@Regression'] }, () => {
-    test('TC-002 - Clicking on BM option "All Items" takes the user to the home page', async () => {
+    test('TC-002 - Clicking on BM option "All Items" takes the user to the home page', async ({ headerPage, productPage, burgerMenuPage, prodDetailsPage }) => {
       await test.step('Click on an item name to open the details', async () => {
         await productPage.clickProductPageBtn(productPage.productName.first());
         await expect(prodDetailsPage.backBtn).toHaveText('Back to products');
@@ -68,7 +54,7 @@ test.describe('Given the user visits the Sauce Demo site,', () => {
       });
     });
   
-    test('TC-003 - Clicking on BM option "About" takes the user to the about page', async ({ page }) => {
+    test('TC-003 - Clicking on BM option "About" takes the user to the about page', async ({ page, headerPage, burgerMenuPage }) => {
       await test.step('Open the Burger Menu (BM) and click "About"', async () => {
         await headerPage.clickHeaderButn(headerPage.locators.burgerMenuButton);
         await burgerMenuPage.clickMenuOptionBtn(burgerMenuPage.about);
@@ -77,7 +63,7 @@ test.describe('Given the user visits the Sauce Demo site,', () => {
       });
     });
   
-    test('TC-004 - Clicking on BM option "Logout" logs the user out', async ({ page }) => {
+    test('TC-004 - Clicking on BM option "Logout" logs the user out', async ({ page, headerPage, burgerMenuPage }) => {
       await test.step('Open the Burger Menu (BM) and click "Logout"', async () => {
         await headerPage.clickHeaderButn(headerPage.locators.burgerMenuButton);
         await burgerMenuPage.clickMenuOptionBtn(burgerMenuPage.logout);
@@ -86,7 +72,7 @@ test.describe('Given the user visits the Sauce Demo site,', () => {
       })
     });
   
-    test('TC-005 - Clicking on BM option "Reset App" defaults app to original state', async ({ page }) => {
+    test('TC-005 - Clicking on BM option "Reset App" defaults app to original state', async ({ page, headerPage, productPage,burgerMenuPage }) => {
       await test.step('Add Item to the Cart', async () => {
         await productPage.clickProductPageBtn(productPage.addToCartBtn.first());
         await expect(headerPage.locators.shoppingCartBadge).toBeVisible();

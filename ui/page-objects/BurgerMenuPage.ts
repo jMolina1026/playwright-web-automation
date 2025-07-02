@@ -1,5 +1,4 @@
 import { type Locator, type Page } from '@playwright/test';
-import urlPaths from '../helpers/uiPaths'
 import utility from '../helpers/utilities';
 
 const { clickElementBtn } = utility

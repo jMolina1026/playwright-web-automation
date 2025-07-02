@@ -1,29 +1,15 @@
-import { test, expect } from '../fixtures/loginFixture';
+import { test, expect } from '../fixtures/page-objects-Fixtures';
 import { STORAGE_STATE } from '../../playwright.config';
-import HeaderPage from '../page-objects/HeaderPage';
-import ProductsPage from '../page-objects/ProductsPage';
-import BurgerMenuPage from '../page-objects/BurgerMenuPage';
-import ProductDetailsPage from '../page-objects/ProductDetailsPage';
 import consts from '../helpers/products.constants'
 import site from '../helpers/domains';
 
 const { paths } = site;
 const { names, descriptions, prices, addToCartBtns, filterOptions } = consts;
 
-let headerPage: HeaderPage;
-let productPage: ProductsPage;
-let burgerMenuPage: BurgerMenuPage;
-let prodDetailsPage: ProductDetailsPage;
-
 test.describe('Given the user visits the Sauce Demo site,', () => {
   test.use({ storageState: STORAGE_STATE });
 
   test.beforeEach(async({ page }) => {
-    headerPage = new HeaderPage(page);
-    productPage = new ProductsPage(page);
-    burgerMenuPage = new BurgerMenuPage(page); // remove
-    prodDetailsPage = new ProductDetailsPage(page); // remove
-
     await test.step('Navigate to Product Page', async () => {
       await page.goto(paths.home);
       await expect(page.getByText('Swag Labs')).toBeVisible();
@@ -31,7 +17,7 @@ test.describe('Given the user visits the Sauce Demo site,', () => {
   })
   
   test.describe('And views the products page', { tag: ['@productPage', '@productPageSanity', '@Sanity'] }, () => {
-    test('TC-001 - Verify that all products elements exist', async () => {
+    test('TC-001 - Verify that all products elements exist', async ( { productPage }) => {
       await test.step('Assert existence and visibility of all Product elements', async () => {
         const productEntries = Object.entries(productPage.eachProductElement);
         for (let [prodKey, prodValue] of productEntries) {
@@ -54,7 +40,7 @@ test.describe('Given the user visits the Sauce Demo site,', () => {
 
 
   test.describe('And views the products page', { tag: ['@productPage', '@productPageRegression', '@Regression'] }, () => {
-    test('TC-002 - Click on the Add-To-Cart for each product, then Remove from cart', async () => {
+    test('TC-002 - Click on the Add-To-Cart for each product, then Remove from cart', async ( { headerPage, productPage }) => {
       await test.step('Add items to cart', async () => {
         const atcElements = await productPage.addToCartBtn.all();
         await expect(headerPage.locators.shoppingCartBadge).not.toBeAttached();
@@ -80,7 +66,7 @@ test.describe('Given the user visits the Sauce Demo site,', () => {
       });
     });
   
-    test('TC-003 - Verify the Product Sort Options', async ({ page }) => {
+    test('TC-003 - Verify the Product Sort Options', async ({ page, headerPage, productPage }) => {
       await test.step('Sorts the product List', async () => {
         let i = 0;
         const productNames = await productPage.productName.all();
